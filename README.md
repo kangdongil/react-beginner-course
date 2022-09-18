@@ -236,5 +236,16 @@ function onChange (event) {
   ```
   - Container나 function이 return할 때 함수를 실행하면 된다.
 
-### 4.0 개발환경 준비하기
-- 
+### Create React App(CRA)
+- CRA란,
+  - React Project 관리자
+- CRA의 장점
+  - 개발 서버에 접근가능하다
+  - 자동으로 refresh해준다
+  - 즉각적으로 CSS 포함
+  - publish할 때 코드 압축
+- Create React App(CRA) 설치하기
+  - nodeJS가 설치되어 있어야 한다.
+  - `npx create-react-app [PROJECT_NAME]`
+
+  
