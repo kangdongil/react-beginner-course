@@ -1,7 +1,7 @@
 ### Project 개요
-- 내용:
-- 목적:
-- 소요예상시간:
+- 내용: React 이해 및 작은 프로젝트 만들기
+- 목적: React로 간단한 결과물을 만들기
+- 소요예상시간: 1주
 
 ### 선행강의 듣기
 - 바닐라 JS로 크롬앱 만들기
@@ -10,18 +10,18 @@
 ## 0.0 이론공부
 ### 0.1 왜 React인가?
 - 많은 대기업들이 프론트엔드를 개발할 때 사용한다.
-  - 프론트엔트 분야는 효과적이고 안정적인 개발언어가 선호되므로
-- 넓고 풍부한 커뮤니티와 자료가 있다.
+  - 프론트엔트 분야는 효과적이고 안정적인 개발언어가 선호되므로   
+  넓고 풍부한 커뮤니티와 자료가 있다.
   - JavaScript 생태계를 업고 있으며, React를 기반으로 framework가 만들어지고 있다.
 ### 0.2 ReactJS가 왜 필요한가?
 - JavaScript보다 수월하게 UI를 Interactive하게 만듬.
 - JavaScript vs. ReactJS: Counter 만들기
-  - JavaScript 작업과정
+  - JavaScript으로 작업한다면...
     - HTML 만들기(span / button)
 	- JavaScript로 개체 가져오기(getElementById / querySelector)
 	- Event를 Listen하기(addEventListener)
 	- function으로 HTML을 업데이트한다.(innerText)
-  - JavaScript로 작업하다보면..
+  - JavaScript의 한계
     - HTML을 지칭하는 Variable들과 AddEventListener가 난무하게 된다.
 	- 카운터와 같은 간단한 기능에도 몇 줄의 코드를 작성해야 한다.
 ### 0.3 React와 ReactDom 파헤치기
@@ -32,8 +32,8 @@
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.js"></script>
   ```
 - React와 ReactDom이란,
-  - React: React에서 제공하는 interactive한 요소가 담긴 library
-  - ReactDom: React element를 HTML body에 삽입해주는 library
+  - `React`: React에서 제공하는 interactive한 요소가 담긴 library
+  - `ReactDom`: React element를 HTML body에 삽입해주는 library
 - React Element를 만드는 방법
   - 예시)
   ```javascript
@@ -63,10 +63,8 @@
  - 결론: ReactJS는 HTML의 컨트롤을 가져오기 위해   
 역순으로 JavaScript로 HTML요소를 작성한다.
 ### 0.4 React에서 Event 다루는 과정 살펴보기
-- `JavaScript`에서는
-HTML을 작성하고   
-HTML 요소를 variable에 저장하고,
-이를 `.addEventListener`로 Event를 다룬다.
+- `JavaScript`에서는 HTML을 작성하고   
+HTML 요소를 variable에 저장하고, 이를 `.addEventListener`로 Event를 다룬다.
 - `React`에서는 `.createElement`할 때 태그의 속성(Prop) 자리에 Event를 쓴다.
   - 예시)
   ```javascript
@@ -78,7 +76,8 @@ HTML 요소를 variable에 저장하고,
 * on[EVENT] 종류 알아보기
   - `onClick`
   - `onMouseEnter`
-### 0.5 JSX 알아보기
+  - `onChange`
+### 0.5 JSX로 Component 만들기
 - `JSX`(JavaScript XML): JavaScript와 HTML을 동시에 작성하는 방식.
 - `Component`: React로 만든 App의 최소한의 단위.
   - HTML문을 return하는 함수나 Class 구조를 가진다.
@@ -90,7 +89,10 @@ HTML 요소를 variable에 저장하고,
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel"> ...
   ```
-- JSX와 HTML이 다른 점
+- HTML과 JSX의 차이점
+  - JSX는 React가 compile하므로 HTML과 유사하나 규칙이 다르다.
+    - 대문자로 시작하는 태그는 `container`다.
+	- 기본 HTML에 없는 이벤트리스너를 태그의 속성으로 받을 수 있다.
   - JSX는 JavaScript 기반이므로 HTML Tag과 중복되는 이름들이 있으므로 유의해야 한다.
     - `<label for="~">` >> `<label htmlFor="~">`
     - `<div class="~">` >> `<div className="~">`
@@ -132,32 +134,44 @@ const [counter, modifier] = React.useState([Default]);
   setCounter((current) => current + 1);
   ```
 ### 1.2 State가 필요한 이유
-- ReactDom을 호출하면 render와 함께 새로고침이 이뤄진다.
+- state에 변동이 있을때마다 즉시 render가 이뤄진다.
 - 따라서 변동이 있을 때마다 render를 해줘야 하는데 이를 modifier가 해결해준다.
-- javascript와 달리 body가 통으로 새로고침되기 보다   
-React는 변동이 있는 부분만 새로고침이 된다.(빠르고 신속하다)
-### 1.3 HTML Input을 React State로 만들기
-- `<label>`과 `<input>` 만들기
+- javascript처럼 작은 변화에도 `<body>` 전체가 다시 render되기 보다   
+React는 변동이 있는 부분만 새로고침하므로 빠르고 신속하다.
+### 1.3 State를 이용할 때 주의할 점
+- 직접 state을 수정하지 말아야 한다.(modifier를 통해 수정하기)
+  - `[VAR]=[VALUE]` >> `modifier([VALUE])`
+  - `[ARRAY].push([ITEM])` >> `(arr) => [...arr, item]`
+    - `... operator`(ES2018) 참고.
+### 1.4 실제 프로젝트에 State 사용해보기(input Form)
+1. HTML 작성하기
 ```html
 <label htmlFor="minutes">Minutes</label>
 <input id="minutes"
        placeholder="Minutes"
-       type="number"
+	   type="number"
 />
 ```
-- 사용자가 input에 값을 입력할 때 자동으로 값이 반영되게 한다.
+2. `useState` 선언하기
 ```javascript
 const [minutes, setMinutes] = React.useState();
+```
+3. `state`를 변수로 사용하기
+```html
+<input ...
+	   value={minutes}
+/>
+```
+4. `modifier`로 state를 변경하는 `handler` 함수 만들기
+```javascript
 function onChange (event) {
-	setMinutes(event.target.value);
+	   setMinutes(event.target.value);
 }
 ```
+5. 태그 속성으로 Event를 Listen하기
 ```html
-<input id="minutes"
-       placeholder="Minutes"
-       type="number"
-       onChange={onChange}
-       value={minutes}
+<input ...
+	   onChange={onChange}
 />
 ```
 ## 2.0 React Props
@@ -211,6 +225,7 @@ function onChange (event) {
   ```javascript
   const Button({ text, fontSize = 15 }) { ... }
   ```
+
 ## 3.0 React Hook
 ### 3.1 Hook란,
 ### 3.2 useEffect
@@ -236,16 +251,59 @@ function onChange (event) {
   ```
   - Container나 function이 return할 때 함수를 실행하면 된다.
 
-### Create React App(CRA)
+### 4.0 Create React App(CRA)
 - CRA란,
   - React Project 관리자
 - CRA의 장점
   - 개발 서버에 접근가능하다
-  - 자동으로 refresh해준다
+  - 자동으로 refresh해준다(Auto-Reload)
   - 즉각적으로 CSS 포함
   - publish할 때 코드 압축
 - Create React App(CRA) 설치하기
   - nodeJS가 설치되어 있어야 한다.
   - `npx create-react-app [PROJECT_NAME]`
-
+### 4.0.1 CRA 최적화하기
+- CRA에는 React 작업에 사용가능한 다양한 기능을 제공하지만   
+실제 프로젝트 개발에 사용되지 않는 파일들을 정리하는 작업이 우선된다.
+- `src/index.js`
+  - 예시)
+  ```python3
+  import React from 'react';
+  import ReactDOM from 'react-dom/client';
+  import App from './App';
   
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(
+  	<React.StrictMode>
+    	<App />
+  	</React.StrictMode>
+  );
+  ```
+- `src/App.js`
+  - 예시)
+  ```python3
+  import { useState } from "react";
+  
+  function App() {
+  	return (
+		<div></div>
+	)
+  }
+  
+  export default App;
+  ```
+- `public/index.html`
+### 4.1 CRA로 React 작업하기
+- HTML React Project와 CRA의 공통점
+  - HTML 한 파일에 있던 내용들이 목적에 맞게 파일별로 분화되어 있다.
+  - `ReactDOM.render`를 `index.js`에서 실행한다.
+  - `<div id="root">`는 `public/index.html`에 존재한다.
+- CRA만의 특징
+  - `useState`나 `useEffect`를 `react`에서 바로 import해서 사용한다.
+  - `index.js`에서 사용하는 유일한 컨테이너는 `<App />` 뿐이다.
+  - `<App />` 컨테이너는 하나의 `<div>` 안에 모든 내용이 들어가야 한다.
+- CSS Module
+  - CSS를 컨테이너마다 구별하여 사용할 수 있다.
+  - `.module.css` 확장자로 css를 작성한다.
+  - 컨테이너는 moduleCSS를 import하여 `className=`로 사용한다.
+  - CSS Module은 class 이름에 랜덤번호를 줘서 중복이 이뤄나도 고유성을 가지게 한다.
