@@ -307,3 +307,50 @@ function onChange (event) {
   - `.module.css` 확장자로 css를 작성한다.
   - 컨테이너는 moduleCSS를 import하여 `className=`로 사용한다.
   - CSS Module은 class 이름에 랜덤번호를 줘서 중복이 이뤄나도 고유성을 가지게 한다.
+
+### 5.0 React Router
+- 설치하기
+  - `npm install react-router-dom`
+- 장점
+
+### 5.1 React Router로 React 프로젝트 관리하기
+1. 폴더 세분화하기
+   - `src/components`
+     - React 컴포넌트를 모은 폴더.
+   - `src/routes`
+     - 기존 App.js가 페이지를 render를 하는 역할이였다면 이를 페이지(Route)별로 분할함.
+	 - routes 폴더 덕분에 `App.js`는 Router만 담당할 수 있음.
+2. `App.js`에 Router 만들기
+   - `BrowserRouter`, `Routes`, `Route`를 import하기
+   ```javascript
+   import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+   ```
+   - Router 구조 만들기
+     - `Router`와 `Routes` 안에 url 접속할 때 실행되는 Route들을 기술한다.
+	 - 구(v 5.3)버전에는 Routes가 Switch였다.
+   ```html
+   <Router>
+   	<Routes>
+		<Route ~~>
+		...
+	</Routes>
+   </Router>
+   ```
+   - Route 기술하기
+   ```html
+   <Route path="/~" element={<CONTAINER />} />
+   ```
+
+3. Router `Link`로 `<a>` 대신하기
+   - Link를 import하기
+   ```javascript
+   import { Link } from "react-router-dom";
+   ```
+   - `<a>` 대신에 `<Link>` 사용하기
+   ```html
+   <Link to="~"> ~ </Link>
+   ```
+   - Link를 a 대신 사용하면 다시 render하지 않고 빠르게 페이지를 넘길 수 있다.
+   
+  
+   
